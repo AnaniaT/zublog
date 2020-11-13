@@ -1,0 +1,8 @@
+{{#if partial1}}
+{{#each comments}}
+{{!-- using custom helper to include additional context --}}
+{{#include user=../user}}
+{{> comment_card}}
+{{/include}}
+{{/each}}
+{{/if}}

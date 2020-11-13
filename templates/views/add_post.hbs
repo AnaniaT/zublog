@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZuBlog: Add Post</title>
+    <link rel="stylesheet" href="/css/add_post.min.css">
+    <script src="/plugin/ckeditor/ckeditor.js"></script>
+    {{>tabIcon}}
+</head>
+
+<body>
+    {{>header}}
+    {{#if _id}}{{>delete_modal}}{{/if}}
+    <div class="form-container">
+        <form action="/posts" method="POST" class="form">
+            {{#if msg}}
+            <div class="msg-bar">
+                <div class="msg {{msg.cls}}">{{msg.text}}</div>
+            </div>
+            {{/if}}
+            {{#if _id}}
+            <input type="hidden" name="postId" id="postId" value="{{_id}}" hidden>
+            {{/if}}
+            <label class="label" for="title">Title</label>
+            <input class="inp" name="title" type="text" id="title" value="{{title}}"
+                placeholder="Add a short title here..." required>
+            <label class="label" for="body">Content</label>
+            <textarea name="body" class="inp" id="body" required>{{body}}</textarea>
+
+            <div class="form-actions">
+                <button class="btn save" type="submit">Save</button>
+                {{#if _id}}
+                <button class="btn delete" type="button">Delete</button>
+                {{/if}}
+                <div class="btn discard" onclick="history.back()">Discard</div>
+            </div>
+        </form>
+    </div>
+
+    {{#if _id}}
+    <script src="/js/add_post.js"></script>
+    {{/if}}
+    <script>
+        var editor = CKEDITOR.replace('body')
+        editor.on('required', function (evt) {
+            alert('Article content is required.');
+            evt.cancel();
+        });
+    </script>
+    <script src="/js/utils.js"></script>
+</body>
+
+</html>

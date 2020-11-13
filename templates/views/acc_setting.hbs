@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZuBlog: Account</title>
+    <link rel="stylesheet" href="/css/acc_settings.min.css">
+    {{>tabIcon}}
+</head>
+
+<body>
+    {{>header}}
+
+    <div class="container">
+        <div class="formMsg"></div>
+        <div class="form-container">
+
+            <form class="pic-form">
+                <div class="profile-pic">
+                    <img id="profilePic" {{#if user.hasAvatar }} src="/account/avatar" {{else}}
+                        src="/img/account_card/user.svg" {{/if}}>
+                </div>
+                <div class="pic-options">
+                    <div class="pic-data">
+                        <div class="info-text">No new profile selected</div>
+                        {{!-- <div class="info-icon">
+                            <svg viewBox="0 0 512 512">
+                                <path fill="#185ef5"
+                                    d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm0-338c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z" />
+                            </svg>
+                            <div class="icon-msg">
+                                Use 1:1 (squared) images for best experience
+                                <div class="pointer"></div>
+                            </div>
+                        </div> --}}
+                    </div>
+                    <div class="opt">
+                        <input type="file" id="imagePicker" hidden accept=".png, .jpg, .jpeg">
+                        {{#if user.hasAvatar}}
+                        <label for="imagePicker" class="pic-btns picSelector">Change</label>
+                        <button class="pic-btns pic-remove">Remove</button>
+                        {{else}}
+                        <label for="imagePicker" class="pic-btns picSelector">Upload</label>
+                        {{/if}}
+                        <div class="pic-action">
+                            <button class="pic-btns pic-saver">Save</button>
+                            <button class="pic-btns pic-discard">Discard</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            {{!-- USERNAME --}}
+            <div class="form-label">
+                <svg viewBox="0 0 448 512">
+                    <path fill="#77c382"
+                        d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z" />
+                </svg>
+                <div class="label">Username</div>
+            </div>
+            <form class="form">
+                <input type="checkbox" id="form1" hidden>
+                <input data-type="0" class="inp" type="text" name="username" value="{{user.username}}" required
+                    maxlength="21" minlength="7">
+                <button class="submit">
+                    <img class="bad" src="/img/account_setting/times.svg" alt="" hidden>
+                    <img class="good" src="/img/account_setting/check.svg" alt="" hidden>
+                    <img class="load" src="/img/account_setting/spinner.svg" alt="" hidden>
+                </button>
+                <div class="overlay"></div>
+                <label class="icon-box" for="form1">
+                    <svg viewBox="0 0 576 512">
+                        <path fill="#77c382"
+                            d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1 0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7 0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174L402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7l-43.2-43.2c-4.1-4.1-10.8-4.1-14.8 0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z" />
+                    </svg>
+                </label>
+            </form>
+
+            {{!-- EMAIL --}}
+            <div class="form-label">
+                <svg viewBox="0 0 512 512">
+                    <path fill="#77c382"
+                        d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z" />
+                </svg>
+                <div class="label">Email</div>
+                <div class="label-info">
+                    <div class="info-text" id="infoEmail">Changes require verification</div>
+                    <svg viewBox="0 0 512 512">
+                        <path fill="#f51818"
+                            d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm0-338c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z" />
+                    </svg>
+                </div>
+            </div>
+            <form class="form">
+                <input type="checkbox" id="form2" hidden>
+                <input data-type="1" class="inp" type="email" value="{{user.email}}" required>
+                <button type="submit" class="submit">
+                    <img class="bad" src="/img/account_setting/times.svg" alt="" hidden>
+                    <img class="good" src="/img/account_setting/check.svg" alt="" hidden>
+                    <img class="load" src="/img/account_setting/spinner.svg" alt="" hidden>
+                </button>
+                <div class="overlay"></div>
+                <label class="icon-box" for="form2">
+                    <svg viewBox="0 0 576 512">
+                        <path fill="#77c382"
+                            d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1 0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7 0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174L402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7l-43.2-43.2c-4.1-4.1-10.8-4.1-14.8 0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z" />
+                    </svg>
+                </label>
+            </form>
+
+            {{!-- test accordion --}}
+            <div class="social-form-label">
+                <div class="label-data">
+                    <svg class='ellipse' viewBox="0 0 512 512">
+                        <path fill="#77c382"
+                            d="M304 256c0 26.5-21.5 48-48 48s-48-21.5-48-48 21.5-48 48-48 48 21.5 48 48zm120-48c-26.5 0-48 21.5-48 48s21.5 48 48 48 48-21.5 48-48-21.5-48-48-48zm-336 0c-26.5 0-48 21.5-48 48s21.5 48 48 48 48-21.5 48-48-21.5-48-48-48z" />
+                    </svg>
+                    <div class="label">Linked Accounts</div>
+                </div>
+            </div>
+
+            <div class="social-form">
+                <form>
+                    <div class="input-box">
+                        <svg viewBox="0 0 448 512">
+                            <path fill="#069ce2"
+                                d="M446.7 98.6l-67.6 318.8c-5.1 22.5-18.4 28.1-37.3 17.5l-103-75.9-49.7 47.8c-5.5 5.5-10.1 10.1-20.7 10.1l7.4-104.9 190.9-172.5c8.3-7.4-1.8-11.5-12.9-4.1L117.8 284 16.2 252.2c-22.1-6.9-22.5-22.1 4.6-32.7L418.2 66.4c18.4-6.9 34.5 4.1 28.5 32.2z" />
+                        </svg>
+                        <input placeholder="Telegram" type="text" value="{{user.social.telegram}}" name="telegram"
+                            class="inp">
+                    </div>
+                    <div class="input-box">
+                        <svg viewBox="0 0 448 512">
+                            <path fill="#f51818"
+                                d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z" />
+                        </svg>
+                        <input placeholder="Instagram" type="text" value="{{user.social.instagram}}" name="instagram"
+                            class="inp">
+                    </div>
+                    {{!-- 2b5fec --}}
+                    <div class="input-box">
+                        <svg viewBox="0 0 320 512">
+                            <path fill="#1350f7"
+                                d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z" />
+                        </svg>
+                        <input placeholder="Facebook" value="{{user.social.facebook}}" type="text" name="facebook"
+                            class="inp">
+                    </div>
+                    <div class="social-info">
+                        <svg viewBox="0 0 512 512">
+                            <path fill="#db2828"
+                                d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm0-338c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z" />
+                        </svg>
+                        These accounts are public and other users can interact with you through them.
+                    </div>
+                    <div class="action-box">
+                        <button type="submit" class="actionBtn" id="socialSave">Save</button>
+                        <button type="reset" class="actionBtn" id="socialDiscard">Discard</button>
+                    </div>
+
+                </form>
+            </div>
+
+
+            {{!-- PASSWORD --}}
+            <div class="pass-form-label">
+                <div class="label-data">
+                    <svg class='ellipse' viewBox="0 0 512 512">
+                        <path fill="#77c382"
+                            d="M304 256c0 26.5-21.5 48-48 48s-48-21.5-48-48 21.5-48 48-48 48 21.5 48 48zm120-48c-26.5 0-48 21.5-48 48s21.5 48 48 48 48-21.5 48-48-21.5-48-48-48zm-336 0c-26.5 0-48 21.5-48 48s21.5 48 48 48 48-21.5 48-48-21.5-48-48-48z" />
+                    </svg>
+                    <div class="label">Change Password</div>
+                </div>
+            </div>
+
+            <div class="pass-form-container">
+                <form class="pass-form">
+                    <div class="form-label">
+                        <svg viewBox="0 0 512 512">
+                            <path fill="#77c382"
+                                d="M320 48c79.529 0 144 64.471 144 144s-64.471 144-144 144c-18.968 0-37.076-3.675-53.66-10.339L224 368h-32v48h-48v48H48v-96l134.177-134.177A143.96 143.96 0 0 1 176 192c0-79.529 64.471-144 144-144m0-48C213.965 0 128 85.954 128 192c0 8.832.602 17.623 1.799 26.318L7.029 341.088A24.005 24.005 0 0 0 0 358.059V488c0 13.255 10.745 24 24 24h144c13.255 0 24-10.745 24-24v-24h24c13.255 0 24-10.745 24-24v-20l40.049-40.167C293.106 382.604 306.461 384 320 384c106.035 0 192-85.954 192-192C512 85.965 426.046 0 320 0zm0 144c0 26.51 21.49 48 48 48s48-21.49 48-48-21.49-48-48-48-48 21.49-48 48z" />
+                        </svg>
+                        <div class="label">Old Password</div>
+                    </div>
+                    <div class="form">
+                        <input class="inp passInp" id="oldPassword" type="password" placeholder="Password" required>
+                        <div class="submit passV">
+                            <img class="bad" src="/img/account_setting/times.svg" alt="" hidden>
+                            <img class="good" src="/img/account_setting/check.svg" alt="" hidden>
+                            <img class="load" src="/img/account_setting/spinner.svg" alt="" hidden>
+                        </div>
+                    </div>
+
+                    <div class="form-label">
+                        <svg viewBox="0 0 448 512">
+                            <path fill="#77c382"
+                                d="M400 192h-32v-46.6C368 65.8 304 .2 224.4 0 144.8-.2 80 64.5 80 144v48H48c-26.5 0-48 21.5-48 48v224c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V240c0-26.5-21.5-48-48-48zm-272-48c0-52.9 43.1-96 96-96s96 43.1 96 96v48H128v-48zm272 320H48V240h352v224z" />
+                        </svg>
+                        <div class="label">New Password</div>
+
+                    </div>
+                    <div class="form">
+                        <input id="newPass" class="inp passInp" type="password" placeholder="New Password" required>
+                        <div class="submit passV">
+                            <img class="bad" src="/img/account_setting/times.svg" alt="" hidden>
+                            <img class="good" src="/img/account_setting/check.svg" alt="" hidden>
+                            <img class="load" src="/img/account_setting/spinner.svg" alt="" hidden>
+                        </div>
+                    </div>
+
+                    <div class="form-label">
+                        <svg viewBox="0 0 448 512">
+                            <path fill="#77c382"
+                                d="M400 192h-32v-46.6C368 65.8 304 .2 224.4 0 144.8-.2 80 64.5 80 144v48H48c-26.5 0-48 21.5-48 48v224c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V240c0-26.5-21.5-48-48-48zm-272-48c0-52.9 43.1-96 96-96s96 43.1 96 96v48H128v-48zm272 320H48V240h352v224z" />
+                        </svg>
+                        <div class="label">Confirm Password</div>
+                    </div>
+                    <div class="form">
+                        <input id="confirmPass" class="inp passInp" type="password" placeholder="Confirm Password"
+                            required>
+                        <div class="submit passV">
+                            <img class="bad" src="/img/account_setting/times.svg" alt="" hidden>
+                            <img class="good" src="/img/account_setting/check.svg" alt="" hidden>
+                            <img class="load" src="/img/account_setting/spinner.svg" alt="" hidden>
+                        </div>
+                    </div>
+
+                    <div class="pass-form-info">
+                        <svg viewBox="0 0 512 512">
+                            <path fill="#f51818"
+                                d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm0-338c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z" />
+                        </svg>
+                        Changes will log you out of other devices
+                    </div>
+                    <div class="pass-actions">
+                        <button type="submit" class="passBtns" id="passSave">Save</button>
+                        <div class="passBtns" id="passDiscard">Discard</button>
+                        </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="/js/utils.js"></script>
+    <script src="/js/acc_setting.js"></script>
+</body>
+
+</html>

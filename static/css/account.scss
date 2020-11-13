@@ -1,0 +1,39 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  background-color: #fff;
+}
+
+.account-card-wrapper {
+  // border: 1px solid red;
+  width: 500px;
+  height: 470px;
+  margin: 0 auto;
+
+  #posts-box-v2 {
+    height: 350px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .account-card-wrapper {
+    width: 450px;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .account-card-wrapper {
+    width: 380px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .account-card-wrapper {
+    width: calc(100% - 5px);
+  }
+}

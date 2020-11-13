@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZuBlog: Home</title>
+    <link rel="stylesheet" href="/css/home.min.css">
+    {{>tabIcon}}
+</head>
+
+<body>
+    {{>header}}
+    <div class="wrapper">
+
+        <div class="post-list">
+            {{#if publicPosts}}
+            {{>blog_post}}
+            {{>blog_paginator}}
+            {{else}}
+            <div class="empty-blog">
+                <div class="msg">
+                    {{!-- <div>Oops! You seem to be on the wrong page</div> --}}
+                    <div>Oops! Nothing could match your search</div>
+                    <a href="/home" class="link">Go Home</a>
+                </div>
+            </div>
+            {{/if}}
+        </div>
+        <div class="account-card-container">
+            {{>account_card}}
+        </div>
+    </div>
+
+    {{!-- Perhaps a footer here --}}
+    <script src="/js/utils.js"></script>
+    <script src="/js/home.js"></script>
+</body>
+
+</html>

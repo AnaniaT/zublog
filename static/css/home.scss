@@ -1,0 +1,481 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  background-color: #fff;
+}
+
+$account-card-width: 350px;
+$card-and-posts-gap: 30px;
+// MAIN-CONTENT -- PC
+.wrapper {
+  // background-color: #ddd;
+  // border: 1px solid grey;
+  position: relative;
+  // margin: 0 100px 50px;
+  margin: 0 60px 50px;
+
+  .post-list {
+    // border: 1p x solid grey;
+    width: calc(100% - #{$card-and-posts-gap} - #{$account-card-width});
+    background-color: #eef;
+    padding: 5px 10px;
+    // height: 750px;
+    // box-shadow: -1px 0 5px 3px #00000073;
+  }
+  $account-card-width: 350px;
+  $account-card-height: 400px;
+
+  .account-card-container {
+    // border: 1px solid red;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: $account-card-width;
+    height: $account-card-height;
+  }
+}
+
+// BLOG POST -- PC
+
+.blog-post {
+  // border: 1px solid red;
+  box-shadow: -0.5px 0 15px 1px #00000073;
+  height: 290px;
+  display: flex;
+  background-color: #fcfcfc;
+  position: relative;
+  margin-bottom: 30px;
+
+  .blog-preview {
+    // border: 1px solid yellow;
+    padding: 15px 35px;
+    overflow: hidden;
+    // cursor: pointer;
+    // box-shadow: inset 0 -40px 20px -15px #0000006b,
+    //   inset 0 -70px 30px -15px #0000006b;
+
+    .title {
+      // border: 1px solid blue;
+      font-size: 33px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #77c382;
+    }
+
+    .body {
+      // border: 1px solid blue;
+      font-size: 17px;
+
+      // THIS IS FROM THE CKEDITOR GOAL HERE IS TO SHOW THE BLOG THE SAME STYLE AS YOU ADDED IT
+
+      /* Font */
+      /* Emoji fonts are added to visualise them nicely in Internet Explorer. */
+      font-family: sans-serif, Arial, Verdana, "Trebuchet MS",
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+      // font-size: 12px;
+
+      /* Text color */
+      color: #333;
+
+      /* Remove the background color to make it transparent. */
+      // background-color: #fff;
+
+      blockquote {
+        margin: 13px 40px;
+        padding: 2px 8px 2px 20px;
+        border: none;
+        border-left: 5px solid #ccc;
+        border-left-width: 5px;
+
+        & > * {
+          font-style: italic;
+          font-family: Georgia, Times, "Times New Roman", serif;
+          margin: 10px 0;
+        }
+      }
+
+      a {
+        color: #0782c1;
+      }
+
+      ol,
+      ul,
+      dl {
+        /* IE7: reset rtl list margin. (#7334) */
+        *margin-right: 0px;
+        /* Preserved spaces for list items with text direction different than the list. (#6249,#8049)*/
+        padding: 0 40px;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-weight: normal;
+        line-height: 1.2;
+      }
+
+      hr {
+        border: 0px;
+        border-top: 1px solid #ccc;
+      }
+
+      img.right {
+        border: 1px solid #ccc;
+        float: right;
+        margin-left: 15px;
+        padding: 5px;
+      }
+
+      img.left {
+        border: 1px solid #ccc;
+        float: left;
+        margin-right: 15px;
+        padding: 5px;
+      }
+
+      pre {
+        white-space: pre-wrap; /* CSS 2.1 */
+        word-wrap: break-word; /* IE7 */
+        -moz-tab-size: 4;
+        tab-size: 4;
+      }
+
+      .marker {
+        background-color: Yellow;
+      }
+
+      span[lang] {
+        font-style: italic;
+      }
+
+      figure {
+        text-align: center;
+        outline: solid 1px #ccc;
+        background: rgba(0, 0, 0, 0.05);
+        padding: 10px;
+        margin: 10px 20px;
+        display: inline-block;
+      }
+
+      figure > figcaption {
+        text-align: center;
+        display: block; /* For IE8 */
+      }
+
+      a > img {
+        padding: 1px;
+        margin: 1px;
+        border: none;
+        outline: 1px solid #0782c1;
+      }
+    }
+  }
+
+  .blog-footer {
+    // border: 1px solid blue;
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, #fff);
+    pointer-events: none;
+    padding: 0 0 5px;
+
+    & > * {
+      pointer-events: auto;
+    }
+
+    .tools {
+      // border: 1px solid green;
+      margin-right: 5px;
+      display: flex;
+      align-items: center;
+      background-color: #fff;
+      box-shadow: -1px 0 5px 1px #00000073;
+      border-radius: 5px;
+
+      .tool-item {
+        // width: 30px;
+        // border: 1px solid blue;
+        // height: 50px;
+        display: flex;
+        align-items: center;
+        padding: 0 5px;
+        margin: 0 2px;
+        cursor: pointer;
+
+        svg {
+          width: 27px;
+          height: 27px;
+        }
+      }
+
+      .reaction-info {
+        // padding: 0 30px;
+        margin: 0 3px;
+        display: flex;
+
+        .info-box {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          margin: 0 7px;
+          cursor: pointer;
+          text-decoration: none;
+          color: inherit;
+
+          &#likeBtn {
+            &:active {
+              svg {
+                animation: likeSpin 1s linear;
+              }
+            }
+          }
+
+          svg {
+            width: 26px;
+            height: 26px;
+          }
+
+          .count {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+
+    .author-card {
+      // border: 1px solid grey;
+      background-color: #fff;
+      box-shadow: -1px 0 5px 1px #00000073;
+      // height: 80px;
+      // width: 180px;
+      min-width: 170px;
+      padding: 5px 10px;
+      border-radius: 5px;
+      display: flex;
+      flex-direction: column;
+
+      .profile-data {
+        border-bottom: 1px solid #77c382;
+        padding: 3px 0;
+        display: flex;
+        align-items: center;
+
+        .pic {
+          width: 30px;
+          height: 30px;
+          border: 1px solid grey;
+          border-radius: 50%;
+          margin-right: 5px;
+        }
+
+        .tick {
+          width: 13px;
+          height: 13px;
+          margin-left: 5px;
+        }
+      }
+
+      .blog-time-data {
+        display: flex;
+        flex-direction: column;
+        font-size: 13px;
+      }
+    }
+  }
+}
+
+.empty-blog {
+  // border: 1px solid green;
+  padding: 10px;
+  height: 280px;
+
+  .msg {
+    // border: 1px solid red;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 24px;
+    background-color: #fff;
+    box-shadow: -0.5px 0 15px 1px #00000073;
+    padding: 0 10px;
+
+    div {
+      text-align: center;
+    }
+
+    .link {
+      text-decoration: none;
+      padding: 5px 15px;
+      background-color: #77c382;
+      color: #fff;
+      font-size: 17px;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+  }
+}
+
+@media screen and (max-width: 1120px) {
+  .wrapper {
+    margin: 0 30px 50px;
+  }
+}
+
+@media screen and (max-width: 1020px) {
+  .wrapper {
+    margin: 0 70px 50px;
+    .post-list {
+      width: 100%;
+    }
+    .account-card-container {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .wrapper {
+    margin: 0 0 50px;
+    .post-list {
+      width: calc(100% - 30px);
+      margin: 0 auto;
+    }
+  }
+
+  .blog-post {
+    height: 275px;
+
+    .blog-preview {
+      padding: 13px 25px;
+      .title {
+        font-size: 29px;
+      }
+    }
+
+    .blog-footer {
+      .author-card {
+        padding: 3px 6px;
+
+        .blog-time-data {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+
+  .empty-blog {
+    padding: 5px;
+    height: 260px;
+
+    .msg {
+      font-size: 21px;
+
+      .link {
+        padding: 5px 13px;
+        font-size: 15px;
+        margin-top: 7px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 440px) {
+  .wrapper {
+    .post-list {
+      width: 100%;
+    }
+  }
+
+  .blog-post {
+    height: 230px;
+
+    .blog-preview {
+      padding: 8px 15px;
+
+      .title {
+        font-size: 24px;
+      }
+
+      .body {
+        font-size: 15px;
+      }
+    }
+
+    .blog-footer {
+      .tools {
+        .tool-item {
+          svg {
+            width: 22px;
+            height: 22px;
+          }
+        }
+      }
+      .author-card {
+        padding: 2px 4px;
+        min-width: 150px;
+
+        .profile-data {
+          .pic {
+            width: 27px;
+            height: 27px;
+          }
+
+          .tick {
+            width: 11px;
+            height: 11px;
+            margin-left: 3px;
+          }
+
+          .username {
+            font-size: 14.5px;
+          }
+        }
+        .blog-time-data {
+          font-size: 11px;
+        }
+      }
+    }
+  }
+
+  .empty-blog {
+    padding: 5px;
+    height: 250px;
+
+    .msg {
+      font-size: 19px;
+      padding: 0 7px;
+
+      .link {
+        padding: 4px 12px;
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+@keyframes likeSpin {
+  0% {
+    transform: scale(1) rotateY(0);
+  }
+  50% {
+    transform: scale(1.2) rotateY(360deg);
+  }
+  100% {
+    transform: scale(1) rotateY(0);
+  }
+}

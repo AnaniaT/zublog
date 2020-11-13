@@ -1,0 +1,268 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  background-color: #fff;
+}
+
+.container {
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  box-shadow: 0 0 20px #77c382e8;
+  width: 740px;
+  padding-bottom: 20px;
+  margin: 0 auto 20px;
+
+  .heading {
+    .logo {
+      height: 180px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      svg {
+        height: 150px;
+        animation: focus 0.5s linear forwards;
+        // transform: rotateZ(-1deg);
+
+        & > * {
+          pointer-events: none;
+          transition: transform 0.5s ease;
+        }
+      }
+    }
+
+    .logo-text {
+      text-align: center;
+      font-size: 15px;
+      color: #77c382;
+      padding-bottom: 5px;
+
+      span {
+        color: #77c382;
+      }
+
+      .link {
+        color: inherit;
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+  .body {
+    background-color: #e1e1e1;
+    padding: 10px 100px;
+
+    .content {
+      line-height: 25px;
+      letter-spacing: 0.5px;
+      text-align: center;
+      font-size: 19px;
+      color: #222;
+    }
+
+    .contact {
+      background-color: #f7f7f7;
+      border-left: 7px solid #77c382;
+      // margin: 10px 50px 0;
+      animation: hopNstrech 0.7s linear forwards;
+      margin: 10px auto 0;
+      // padding: 10px;
+      // width: fit-content;
+      // transform: rotateX(90deg);
+      width: 5px;
+      height: 50px;
+      overflow: hidden;
+      display: flex;
+
+      .link-box {
+        display: flex;
+
+        .link {
+          display: flex;
+          align-items: center;
+          padding: 0 5px;
+
+          svg {
+            height: 30px;
+            width: 30px;
+
+            path {
+              transition: fill 0.25s ease;
+            }
+
+            &:hover {
+              path {
+                fill: #77c382;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: 560px;
+    // width: auto;
+    // min-width: 540px;
+
+    .heading {
+      .logo {
+        padding-top: 5px;
+        height: 130px;
+
+        svg {
+          height: 120px;
+        }
+      }
+
+      .logo-text {
+        font-size: 14px;
+      }
+    }
+
+    .body {
+      padding: 10px 60px;
+
+      .content {
+        font-size: 17.5px;
+      }
+
+      .contact {
+        padding: 7px;
+      }
+    }
+  }
+
+  @keyframes hopNstrech {
+    0% {
+      transform: rotateX(90deg);
+    }
+    50% {
+      transform: none;
+      padding: 0;
+      width: 5px;
+    }
+    100% {
+      padding: 7px;
+      width: 107px;
+    }
+  }
+}
+
+@media (max-width: 580px) {
+  .container {
+    margin: 0 10px 20px;
+    width: auto;
+    max-width: 560px;
+  }
+}
+
+@media (max-width: 460px) {
+  .container {
+    margin: 0 5px 20px;
+    // width: auto;
+    // max-width: 560px;
+
+    .heading {
+      .logo {
+        height: 100px;
+
+        svg {
+          height: 90px;
+        }
+      }
+
+      .logo-text {
+        font-size: 13px;
+      }
+    }
+
+    .body {
+      padding: 10px 40px;
+
+      .content {
+        font-size: 17px;
+      }
+
+      .contact {
+        padding: 5px;
+      }
+    }
+  }
+
+  @keyframes hopNstrech {
+    0% {
+      transform: rotateX(90deg);
+    }
+    50% {
+      transform: none;
+      padding: 0;
+      width: 5px;
+    }
+    100% {
+      padding: 5px;
+      width: 107px;
+    }
+  }
+}
+
+@media (max-width: 380px) {
+  .container {
+    .heading {
+      .logo {
+        height: 90px;
+
+        svg {
+          height: 80px;
+        }
+      }
+    }
+
+    .body {
+      padding: 10px 20px;
+
+      .content {
+        font-size: 16px;
+        letter-spacing: 0.3px;
+      }
+    }
+  }
+}
+
+@keyframes hopNstrech {
+  0% {
+    transform: rotateX(90deg);
+  }
+  50% {
+    transform: none;
+    padding: 0;
+    width: 5px;
+  }
+  100% {
+    padding: 10px;
+    width: 107px;
+  }
+}
+
+@keyframes focus {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

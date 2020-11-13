@@ -1,0 +1,80 @@
+.comment-box {
+  background-color: #eee;
+  min-height: 45px;
+  width: 100%;
+  margin-bottom: 2px;
+  display: flex;
+  padding: 5px;
+
+  .pic {
+    // background-color: #677;
+    width: 40px;
+    height: 40px;
+
+    img,
+    svg {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 0.5px solid grey;
+    }
+  }
+
+  .comment-info {
+    // background-color: #998;
+    flex: 1;
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+
+    .txt-data {
+      flex: 1;
+      .username {
+        font-weight: 600;
+      }
+    }
+
+    .foot {
+      // height: 15px;
+      // background-color: #ddd;
+      width: 100%;
+      display: flex;
+      color: #555;
+      justify-content: flex-end;
+
+      &.owned {
+        justify-content: space-between;
+      }
+
+      .comment-del-btn {
+        font-size: 13px;
+        align-items: center;
+        display: flex;
+        cursor: pointer;
+
+        &:hover {
+          span {
+            // opacity: 1;
+            color: #77c382;
+          }
+        }
+
+        span {
+          transition: all 0.3s ease;
+          // opacity: 0;
+        }
+
+        svg {
+          width: 12px;
+          margin: 0 2px;
+          // height: 20px;
+        }
+      }
+      .date {
+        text-align: end;
+        font-size: 14px;
+        // color: #555;
+      }
+    }
+  }
+}

@@ -1,0 +1,712 @@
+$submitWidth: 40px;
+$iconBoxWidth: calc(#{$submitWidth} + 6px);
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  background-color: #fff;
+}
+
+.container {
+  border: 1px solid #77c382;
+  border-radius: 5px;
+  box-shadow: 0 14px 28px rgba(16, 114, 49, 0.25),
+    0 10px 15px rgba(0, 255, 85, 0.22);
+  max-width: 450px;
+  // height: 500px;
+  margin: 0 auto;
+  padding: 10px 30px 30px;
+
+  .formMsg {
+    height: 40px;
+    padding: 0 25px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .formMsg.good {
+    border: 1px solid #77c382;
+    color: #77c382;
+  }
+
+  .formMsg.bad {
+    border: 1px solid #f51818;
+    color: #f51818;
+  }
+
+  .form-container {
+    // border: 1px solid red;
+    // height: ;
+
+    .form-label {
+      padding: 3px 46px 3px 8px;
+      display: flex;
+      align-items: center;
+
+      svg,
+      img {
+        width: 20px;
+        height: 20px;
+      }
+
+      .label {
+        padding: 0 10px 0 8px;
+        flex: 1;
+      }
+
+      .label-info {
+        display: flex;
+        align-items: center;
+
+        .info-text {
+          color: #f51818;
+          font-size: 14px;
+          padding: 0 5px;
+        }
+        img,
+        svg {
+          width: 13px;
+          height: 13px;
+        }
+      }
+    }
+
+    .pass-form-label {
+      padding: 3px 46px 3px 0;
+
+      .label-data {
+        box-shadow: 0 0 5px #77c3827a;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        padding-left: 8px;
+
+        & > * {
+          pointer-events: none;
+        }
+
+        .label {
+          flex: 1;
+          padding: 0 10px 0 8px;
+        }
+
+        img,
+        svg {
+          width: 15px;
+          height: 15px;
+          transform: rotate(90deg);
+          transition: all 0.4s ease;
+        }
+      }
+    }
+
+    .pass-form-container {
+      // border: 1px solid green;
+      margin: 10px 46px 0 0;
+      // background-color: #eed;
+
+      .pass-form {
+        height: 0;
+        overflow: hidden;
+        width: 100%;
+        animation-duration: 0.8s;
+        animation-timing-function: ease;
+        animation-fill-mode: forwards;
+
+        .form-label {
+          img,
+          svg {
+            height: 18px;
+            width: 18px;
+          }
+        }
+
+        .form {
+          .passInp {
+            border-right: 1px solid #77c382;
+            margin-right: 0;
+          }
+        }
+
+        .pass-form-info {
+          // border: 1px solid red;
+          color: #f51818;
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+          font-size: 14px;
+
+          svg {
+            width: 13px;
+            height: 13px;
+            margin-right: 4px;
+          }
+        }
+
+        .pass-actions {
+          // border: 1px solid grey;
+          padding: 0 10px;
+          display: flex;
+          justify-content: flex-end;
+
+          .passBtns {
+            border: none;
+            outline: none;
+            border-radius: 3px;
+            padding: 5px 9px;
+            color: #fff;
+            font-size: 13.3333px;
+            background-color: #77c382;
+            margin-right: 10px;
+            cursor: pointer;
+          }
+
+          #passDiscard {
+            background-color: #f51818;
+          }
+        }
+      }
+    }
+
+    .pass-form.active {
+      animation-name: dropdown;
+    }
+
+    .pass-form.deactive {
+      animation-name: pullup;
+    }
+
+    $formHeight: 45px;
+    .form {
+      //   border: 1px solid blue;
+      position: relative;
+      height: $formHeight;
+      display: flex;
+      overflow: hidden;
+      background-color: #eee;
+      margin-bottom: 10px;
+
+      $submitWidth: 40px;
+      $iconBoxWidth: calc(#{$submitWidth} + 6px);
+
+      .formMsg {
+        border: 1px solid grey;
+        height: 100%;
+        width: 12px;
+      }
+
+      .overlay {
+        // border: 1px solid green;
+        background-color: rgba(62, 134, 28, 0.288);
+        position: absolute;
+        height: 100%;
+        width: calc(100% - #{$iconBoxWidth});
+        transition: all 0.3s ease;
+      }
+
+      .inp {
+        background: #eee;
+        font-size: 16px;
+        border: none;
+        padding: 12px 15px;
+        margin-right: calc(#{$submitWidth} + 1px); // 1 for green border
+        flex: 1;
+      }
+
+      .inp:focus {
+        outline: none;
+      }
+
+      .submit {
+        position: absolute;
+        height: 100%;
+        background-color: #fff;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        top: -100%;
+        right: $iconBoxWidth;
+        width: $submitWidth;
+        transition: all 0.3s ease;
+
+        &.passV {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: default;
+          pointer-events: none;
+          right: 1px;
+        }
+
+        img,
+        svg {
+          width: 20px;
+          height: 20px;
+        }
+
+        .load {
+          animation: spin infinite 1.5s linear;
+        }
+      }
+
+      input[type="checkbox"]:checked ~ .overlay {
+        transform: translateY(-100%);
+      }
+      // input[type="checkbox"]:checked ~ .submit {
+      //   transform: translateY(100%);
+      // }
+
+      .icon-box {
+        // border: 1px solid grey;
+        border-left: 1px solid #77c382;
+        width: $iconBoxWidth;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        background-color: #fff;
+
+        img,
+        svg {
+          // pointer-events: none;
+          // cursor: pointer;
+          height: 25px;
+          width: 25px;
+        }
+
+        &.passV {
+          pointer-events: none;
+          cursor: default;
+        }
+      }
+    }
+
+    $picFormHeight: 70px;
+    .pic-form {
+      display: flex;
+      margin-bottom: 20px;
+      min-height: $picFormHeight;
+
+      .profile-pic {
+        border: 1px solid grey;
+        border-radius: 50%;
+        width: $picFormHeight;
+        height: $picFormHeight;
+
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+        }
+      }
+
+      .pic-options {
+        border-top: 1px solid #808080;
+        border-bottom: 1px solid #808080;
+        flex: 1;
+        padding: 5px 15px;
+        display: flex;
+        flex-direction: column;
+        // align-items: center; padding made it sure the items are centered veritally
+
+        .pic-data {
+          // border: 1px solid green;
+          height: 25px;
+          padding: 0 5px;
+          color: #77c382;
+          display: flex;
+
+          .info-text {
+            font-size: 15px;
+            flex: 1;
+          }
+
+          .info-icon {
+            position: relative;
+            cursor: pointer;
+
+            svg {
+              width: 13px;
+              height: 13px;
+            }
+
+            $iconMsgBg: #eef;
+
+            .icon-msg {
+              position: absolute;
+              top: calc(-100% - 3px);
+              right: -8px;
+              color: #1554db;
+              // min-width: 100px;
+              width: 270px;
+              // padding: 0 5px;
+              font-size: 14px;
+              text-align: center;
+              background-color: $iconMsgBg;
+              display: none;
+
+              .pointer {
+                position: absolute;
+                top: 100%;
+                right: 5px;
+                height: 20px;
+                width: 20px;
+                background-color: $iconMsgBg;
+                clip-path: polygon(50% 40%, 0% 100%, 100% 100%);
+                transform: rotate(180deg);
+              }
+            }
+          }
+        }
+
+        .opt {
+          height: 25px;
+          padding: 0 15px;
+          display: flex;
+          // border: 1px solid red;
+          overflow: hidden;
+
+          .pic-btns {
+            display: flex;
+            align-items: center;
+            padding: 0 5px;
+            outline: none;
+            border: none;
+            background: none;
+            background-color: #fff;
+            border: 2px solid #77c382;
+            border-left: none;
+            border-right: none;
+            color: #77c382;
+            cursor: pointer;
+            font-size: 13.3333px;
+            transition: trnsform 80ms ease-in;
+          }
+
+          .pic-remove {
+            background-color: #f51818;
+            border: none;
+            color: #fff;
+            margin-left: 3px;
+          }
+
+          .pic-btns:active {
+            transform: scale(0.95);
+          }
+
+          .pic-action {
+            transition: transform 0.5s ease;
+            transform: translateY(calc(-100% - 2px));
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+
+            button {
+              margin: 0 7px;
+            }
+
+            .pic-saver {
+              color: #fff;
+              background: #77c382;
+            }
+
+            .pic-discard {
+              color: #f51818;
+              border-color: #f51818;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Accordion styles
+.social-form-label {
+  padding: 3px 46px 3px 0;
+
+  .label-data {
+    box-shadow: 0 0 5px #77c3827a;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding-left: 8px;
+
+    & > * {
+      pointer-events: none;
+    }
+
+    .label {
+      flex: 1;
+      padding: 0 10px 0 8px;
+    }
+
+    img,
+    svg {
+      width: 15px;
+      height: 15px;
+      transform: rotate(90deg);
+      transition: all 0.4s ease;
+    }
+  }
+}
+
+.social-form {
+  padding: 0 46px 0 0;
+  height: 0;
+  overflow: hidden;
+  animation-duration: 0.4s;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+
+  &.active {
+    animation-name: dropdown2;
+  }
+
+  &.deactive {
+    animation-name: pullup2;
+  }
+
+  form {
+    .input-box {
+      display: flex;
+      align-items: center;
+      background: #eee;
+      margin: 0 0 3px;
+      padding-left: 5px;
+
+      svg {
+        height: 30px;
+        width: 30px;
+      }
+      .inp {
+        outline: none;
+        background: none;
+        font-size: 16px;
+        border: none;
+        border-right: 1px solid #77c382;
+        flex: 1;
+        padding: 12px 15px;
+      }
+    }
+
+    .social-info {
+      padding: 10px 5px 0;
+      font-size: 14px;
+      color: #f51818;
+
+      svg {
+        height: 12px;
+        width: 12px;
+        margin-left: 3px;
+      }
+    }
+
+    .action-box {
+      // background-color: #eee;
+      padding: 5px;
+      display: flex;
+      justify-content: flex-end;
+
+      .actionBtn {
+        outline: none;
+        border: none;
+        border-radius: 3px;
+        padding: 5px 9px;
+        color: #fff;
+        font-size: 13.3333px;
+        background-color: #77c382;
+        margin-right: 10px;
+        cursor: pointer;
+
+        &#socialDiscard {
+          background-color: #f51818;
+        }
+      }
+    }
+  }
+}
+
+// Responsiveness
+@media screen and (max-width: 480px) {
+  .container {
+    max-width: 400px;
+    padding: 7px 25px 30px;
+  }
+}
+
+@media screen and (max-width: 410px) {
+  .container {
+    margin: 0 5px;
+    padding: 7px 20px 30px;
+
+    .form-container {
+      .pic-form {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 7px;
+
+        .profile-pic {
+          margin-bottom: 5px;
+        }
+
+        .pic-options {
+          margin: 0 10px;
+          padding: 5px 10px;
+        }
+      }
+    }
+  }
+}
+
+@keyframes dropdown {
+  from {
+    height: 0;
+  }
+  to {
+    height: 305px;
+  }
+}
+
+@keyframes pullup {
+  from {
+    height: 305px;
+  }
+  to {
+    height: 0;
+  }
+}
+
+@keyframes dropdown2 {
+  from {
+    height: 0;
+  }
+  to {
+    height: 225px;
+  }
+}
+
+@keyframes pullup2 {
+  from {
+    height: 225px;
+  }
+  to {
+    height: 0;
+  }
+}
+
+@media screen and (max-width: 355px) {
+  .container {
+    .form-container {
+      .pic-form {
+        .pic-options {
+          // margin: 0 5px;
+          padding: 7px 10px 10px;
+        }
+      }
+
+      .form-label {
+        padding: 3px 0 3px 8px;
+      }
+
+      .form {
+        .overlay {
+          display: none;
+        }
+        .icon-box {
+          display: none;
+        }
+
+        .inp {
+          border-right: 1px solid #77c382;
+          margin: 0;
+          padding-right: calc(#{$submitWidth} + 12px);
+        }
+
+        .submit {
+          right: 1px;
+        }
+      }
+
+      .pass-form-label {
+        padding: 3px 0;
+      }
+
+      .pass-form-container {
+        margin: 10px 0 0;
+      }
+    }
+  }
+
+  .social-form-label {
+    padding: 3px 0;
+  }
+
+  .social-form {
+    padding: 0;
+  }
+
+  @keyframes dropdown {
+    from {
+      height: 0;
+    }
+    to {
+      height: 315px;
+    }
+  }
+
+  @keyframes pullup {
+    from {
+      height: 315px;
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 305px) {
+  .container {
+    .form-container {
+      .form {
+        .overlay {
+          width: calc(100% - #{$submitWidth});
+        }
+      }
+    }
+  }
+
+  @keyframes dropdown2 {
+    from {
+      height: 0;
+    }
+    to {
+      height: 245px;
+    }
+  }
+
+  @keyframes pullup2 {
+    from {
+      height: 245px;
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
