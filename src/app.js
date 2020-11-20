@@ -1,27 +1,31 @@
 const express = require("express");
 const path = require("path");
+const http = require("http");
 const hbs = require("hbs");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const jwt = require("jsonwebtoken");
-// const multer = require("multer");
 // const session = require("express-session");
+const socketio = require("socket.io");
+
 const infoRouter = require("./routers/info");
 const indexRouter = require("./routers/index");
 const userRouter = require("./routers/user");
 const postRouter = require("./routers/post");
 const commentRouter = require("./routers/comment");
 const likeRouter = require("./routers/like");
-const User = require("./models/user");
 
 require("./db/connector"); // Connects to db
 const app = express();
-
 const staticFolder = path.join(__dirname, "../static");
 const viewsFolder = path.join(__dirname, "../templates/views");
 const partialsFolder = path.join(__dirname, "../templates/partials");
 
-const sessionSecret = "sjdkhs73unj*&$Bkjsd%^(Hj)(S^&%bhjsdkd";
+// const sessionSecret = "sjdkhs73unj*&$Bkjsd%^(Hj)(S^&%bhjsdkd";
+
+// WebSocket initailization
+const server = http.createServer(app);
+const io = socketio(server);
+app.set("socketio", io);
 
 // View setup
 app.set("view engine", "hbs");
@@ -118,4 +122,9 @@ app.get("**", (req, res) => {
   res.status(404).render("400html", { url: req.path });
 });
 
-module.exports = app;
+// WebSockets
+// io.on("connection", (socket) => {
+//   console.log("hello");
+// });
+
+module.exports = server;

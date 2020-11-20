@@ -1,12 +1,14 @@
-* {
-  margin: 0;
+*:not(.body *) {
   padding: 0;
-  box-sizing: border-box;
+  margin: 0;
   font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+}
+* {
+  box-sizing: border-box;
 }
 
 body {
-  background-color: #fff;
+  background-color: #f0f0f0;
 }
 
 $account-card-width: 350px;
@@ -22,7 +24,7 @@ $card-and-posts-gap: 30px;
   .post-list {
     // border: 1p x solid grey;
     width: calc(100% - #{$card-and-posts-gap} - #{$account-card-width});
-    background-color: #eef;
+    // background-color: #eef;
     padding: 5px 10px;
     // height: 750px;
     // box-shadow: -1px 0 5px 3px #00000073;
@@ -279,6 +281,11 @@ $card-and-posts-gap: 30px;
           border: 1px solid grey;
           border-radius: 50%;
           margin-right: 5px;
+        }
+
+        .username {
+          text-decoration: none;
+          color: inherit;
         }
 
         .tick {

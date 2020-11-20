@@ -33,3 +33,19 @@ blogPosts.forEach((post) => {
     icon.style.animation = "";
   });
 });
+
+const socket = io();
+socket.on("numsChanged", ({ type, postId, countNum }) => {
+  const blogPost = document.querySelector(`[data-postid='${postId}']`);
+  if (blogPost) {
+    let selector;
+    if (type === "like") {
+      selector = "#likeBtn";
+    } else if (type === "comment") {
+      selector = "#commentBtn";
+    }
+    const labelBtn = blogPost.querySelector(selector);
+    const count = labelBtn.querySelector(".count");
+    count.textContent = countNum;
+  }
+});

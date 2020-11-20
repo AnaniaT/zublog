@@ -14,7 +14,7 @@
     </div>
     <div class="comment-info">
         <div class="txt-data">
-            <span class="username">{{author.username}}</span>
+            <a class="username" href="/{{author.username}}/profile">{{author.username}}</a>
             {{body}}
         </div>
         {{#if_Equal post.author._id user._id }}

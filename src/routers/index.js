@@ -172,7 +172,7 @@ router.get("/account/verify/email/:token", async (req, res) => {
     user.active = true;
     await user.save();
     const tok = await user.generateAuthToken();
-    sendWelcomeEmail(user.email, user.username);
+    // sendWelcomeEmail(user.email, user.username);
     res.cookie("_Oth", tok);
     res.redirect("/home");
   } catch (e) {
@@ -200,30 +200,30 @@ router.get("/forgotpassword", async (req, res) => {
   res.render("forgotpassword", data);
 });
 
-router.post("/forgotpassword", async (req, res) => {
-  const allowedFields = ["username", "email"];
-  const updateFields = Object.keys(req.body);
-  const isValidOpration = updateFields.every((key) =>
-    allowedFields.includes(key)
-  );
+// router.post("/forgotpassword", async (req, res) => {
+//   const allowedFields = ["username", "email"];
+//   const updateFields = Object.keys(req.body);
+//   const isValidOpration = updateFields.every((key) =>
+//     allowedFields.includes(key)
+//   );
 
-  if (!isValidOpration) {
-    return res.status(400).render("400html", { url: req.path });
-  }
+//   if (!isValidOpration) {
+//     return res.status(400).render("400html", { url: req.path });
+//   }
 
-  const user = await User.findOne({
-    username: req.body.username,
-    email: req.body.email,
-  });
-  if (!user) {
-    res.cookie("failData", req.body);
-    res.cookie("failMsg", "Couldn't find you");
-    return res.redirect("/forgotpassword");
-  }
+//   const user = await User.findOne({
+//     username: req.body.username,
+//     email: req.body.email,
+//   });
+//   if (!user) {
+//     res.cookie("failData", req.body);
+//     res.cookie("failMsg", "Couldn't find you");
+//     return res.redirect("/forgotpassword");
+//   }
 
-  res.cookie("goodData", req.body);
-  res.cookie("goodMsg", "I Gotcha, " + user.username);
-  res.redirect("/forgotpassword");
-});
+//   res.cookie("goodData", req.body);
+//   res.cookie("goodMsg", "I gotcha, " + user.username);
+//   res.redirect("/forgotpassword");
+// });
 
 module.exports = router;

@@ -21,7 +21,6 @@ modalDelBtn.addEventListener("click", async () => {
     headers: new Headers({ "Content-type": "application/json" }),
   })
     .then((r) => {
-      console.log(r.status);
       if (r.status === 200) {
         return r.json();
       }

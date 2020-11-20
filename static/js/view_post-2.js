@@ -1,4 +1,4 @@
-// THIS USES THE HTTP REQUEST TO UPDATE THE DOM
+// THIS USES WEBSOCKETS MAINLY TO UPDATE THE DOM
 const domain = location.origin;
 const commentTextarea = document.querySelector("#commentTextarea");
 const commentForm = document.querySelector("#commentForm");
@@ -31,7 +31,6 @@ commentForm.addEventListener("submit", async (e) => {
   })
     .then((r) => {
       if (r.status >= 200 && r.status < 300) {
-        screenUpdate(postId);
         return console.log("Good");
       }
       throw new Error("Something went wrong");
@@ -72,35 +71,11 @@ likeBtn.addEventListener("click", async () => {
   icon.style.animation = "";
 });
 
-// COMMENT KINDA LIVE RELOAD
-let isReqPending = false;
-const screenUpdate = async (postId) => {
-  console.log("updating page...");
-  isReqPending = true;
-  await fetch(domain + "/get/comments/" + postId, {
-    method: "GET",
-    headers: new Headers({ "content-type": "application/json" }),
-  })
-    .then((r) => {
-      if (r.status >= 200 && r.status < 300) {
-        return r.json();
-      }
-      throw new Error("Something went wrong");
-    })
-    .then(({ numOfLikes, numOfComments, view }) => {
-      handleDOMUpdate({ numOfLikes, numOfComments, view });
-      // renew eventListeners since the DOM is changed
-      registerCommentDelListners();
-    })
-    .catch((e) => alert(e.message));
-
-  isReqPending = false;
-};
-
+// DOM UPDATE HANDLER
 const handleDOMUpdate = ({ numOfLikes, numOfComments, view }) => {
   const toolBox = document.querySelector("#commentsTab");
   const clearCommentList = () => {
-    // WILL ONLY KEEP THE COMMENT FORM IN THE TOOLS
+    // WILL ONLY KEEP THE COMMENT FORM FROM THE TOOLS BOX
     for (let child of toolBox.children) {
       if (!(child.id === "commentForm")) {
         child.remove();
@@ -112,6 +87,7 @@ const handleDOMUpdate = ({ numOfLikes, numOfComments, view }) => {
   if (commentsBox) {
     if (view) {
       commentsBox.innerHTML = view;
+      registerCommentDelListners();
     } else {
       const noCommentsMsg = document.createElement("div");
       noCommentsMsg.classList.add("no-comments");
@@ -130,26 +106,26 @@ const handleDOMUpdate = ({ numOfLikes, numOfComments, view }) => {
   likeCount.textContent = numOfLikes;
 };
 
-// const commentsUpdater = setInterval(() => {
-//   if (!isReqPending) {
-//     screenUpdate(postId);
-//   }
-// }, 5000);
+// LISTEN ON THE UPDATE OF THE COMMENTS
+const socket = io();
+socket.on(
+  `commentUpdate-${postId}`,
+  ({ numOfLikes, numOfComments, result: view }) => {
+    handleDOMUpdate({ numOfLikes, numOfComments, view });
+  }
+);
 
-// const socket = io();
-// socket.on(
-//   `commentUpdate-${postId}`,
-//   ({ numOfLikes, numOfComments, comments }) => {
-//     console.log(numOfLikes, numOfComments);
-//     console.log(comments);
-//   }
-// );
+socket.on("numsChanged", ({ type, postId: id, countNum }) => {
+  if (postId === id) {
+    if (type === "like") {
+      likeCount.textContent = countNum;
+    } else if (type === "comment") {
+      commentCount.textContent = countNum;
+    }
+  }
+});
 
-window.onunload = window.onbeforeunload = () => {
-  clearInterval(commentsUpdater);
-};
-
-// HANDLE COMMENT DELETION
+// HANDLE THE EVENT LISTENERS
 const registerCommentDelListners = () => {
   const commentDelBtns = document.querySelectorAll(".comment-del-btn");
   commentDelBtns.forEach((btn) => {
@@ -163,6 +139,7 @@ const registerCommentDelListners = () => {
 };
 registerCommentDelListners();
 
+// HANDLE COMMENT DELETE
 const deleteComment = async (commentId) => {
   await fetch(domain + "/delete/comment", {
     method: "DELETE",
@@ -171,7 +148,6 @@ const deleteComment = async (commentId) => {
   })
     .then((r) => {
       if (r.status >= 200 && r.status < 300) {
-        screenUpdate(postId);
         return console.log("Good");
       }
       throw new Error("Something went wrong");
@@ -181,3 +157,5 @@ const deleteComment = async (commentId) => {
       alert(err.message);
     });
 };
+
+console.log(new Date().toTimeString());

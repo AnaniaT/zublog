@@ -2,7 +2,6 @@ const express = require("express");
 const multer = require("multer");
 const sharp = require("sharp");
 const validator = require("validator");
-const pr = console.log;
 
 const cookieAuth = require("../middlewares/cookieAuth");
 const User = require("../models/user");
@@ -95,7 +94,6 @@ router.get("/home", cookieAuth, async (req, res) => {
 });
 
 router.get("/account/setting", cookieAuth, (req, res) => {
-  // res.clearCookie("signal");
   res.render("acc_setting", {
     user: req.user.getPublicData(),
   });
@@ -251,6 +249,44 @@ router.get("/account/avatar/:id", cookieAuth, async (req, res) => {
   } catch {
     res.status(400).render("400html", { url: req.path });
   }
+});
+
+router.get("/account/me", cookieAuth, async (req, res) => {
+  await req.user
+    .populate({
+      path: "posts",
+      options: {
+        sort: {
+          createdAt: -1, // desc
+        },
+      },
+    })
+    .execPopulate();
+
+  res.render("account", {
+    user: req.user.getPublicData(),
+    accountpage: "active",
+    userPosts: req.user.posts,
+  });
+});
+
+router.get("/:username/profile", cookieAuth, async (req, res) => {
+  const user = await User.findOne({ username: req.params.username });
+  await user
+    .populate({
+      path: "posts",
+      options: {
+        sort: {
+          createdAt: -1, // desc
+        },
+      },
+    })
+    .execPopulate();
+
+  res.render("profile", {
+    user: user.getPublicData(),
+    userPosts: user.posts,
+  });
 });
 
 module.exports = router;

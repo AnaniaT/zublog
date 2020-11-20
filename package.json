@@ -24,6 +24,7 @@
     "react": "file:../../OTHERS/NpmPackagePoket/react-16.13.1.tgz",
     "react-dom": "file:../../OTHERS/NpmPackagePoket/react-dom-16.13.1.tgz",
     "sharp": "^0.26.1",
+    "socket.io": "^3.0.3",
     "validator": "file:../../OTHERS/NpmPackagePoket/validator-13.1.1.tgz"
   }
 }

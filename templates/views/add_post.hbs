@@ -24,7 +24,7 @@
             <input type="hidden" name="postId" id="postId" value="{{_id}}" hidden>
             {{/if}}
             <label class="label" for="title">Title</label>
-            <input class="inp" name="title" type="text" id="title" value="{{title}}"
+            <input class="inp" name="title" type="text" id="title" minlength="7" value="{{title}}"
                 placeholder="Add a short title here..." required>
             <label class="label" for="body">Content</label>
             <textarea name="body" class="inp" id="body" required>{{body}}</textarea>

@@ -14,6 +14,9 @@ router.get("/posts", cookieAuth, async (req, res) => {
       if (!post) {
         throw new Error();
       }
+      if (!(post.author.toString() === req.user._id.toString())) {
+        throw new Error();
+      }
     } catch (e) {
       return res.status(400).render("400html", { url: req.path });
     }
@@ -37,6 +40,9 @@ router.post("/posts", cookieAuth, async (req, res) => {
       const post = await Post.findById(req.body.postId);
       if (!post) {
         throw new Error();
+      }
+      if (!(post.author.toString() === req.user._id.toString())) {
+        return res.status(401).send();
       }
       // updateKeys.forEach((key) => (post[key] = req.body[key]));
       post.title = req.body.title;
@@ -93,11 +99,15 @@ router.post("/posts", cookieAuth, async (req, res) => {
 
 router.delete("/posts", cookieAuth, async (req, res) => {
   try {
-    const post = await Post.findByIdAndDelete(req.body.id);
+    const post = await Post.findById(req.body.id);
     if (!post) {
       throw new Error();
     }
-    res.send({ title: post.title });
+    if (post.author.toString() === req.user._id.toString()) {
+      await post.remove();
+      return res.send({ title: post.title });
+    }
+    res.status(401).send();
   } catch (e) {
     res.status(400).send();
   }
