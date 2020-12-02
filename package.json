@@ -11,20 +11,18 @@
   "license": "ISC",
   "dependencies": {
     "@sendgrid/mail": "^7.2.6",
-    "bcryptjs": "file:../../OTHERS/NpmPackagePoket/bcryptjs-2.4.3.tgz",
+    "bcryptjs": "2.4.3",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
-    "express": "file:../../OTHERS/NpmPackagePoket/express-4.17.1.tgz",
+    "express": "4.17.1",
     "express-session": "^1.17.1",
-    "hbs": "file:../../OTHERS/NpmPackagePoket/hbs-4.1.1.tgz",
-    "jsonwebtoken": "file:../../OTHERS/NpmPackagePoket/jsonwebtoken-8.5.1.tgz",
-    "mongodb": "file:../../OTHERS/NpmPackagePoket/mongodb-3.6.2.tgz",
-    "mongoose": "file:../../OTHERS/NpmPackagePoket/mongoose-5.10.5.tgz",
-    "multer": "file:../../OTHERS/NpmPackagePoket/multer-1.4.2.tgz",
-    "react": "file:../../OTHERS/NpmPackagePoket/react-16.13.1.tgz",
-    "react-dom": "file:../../OTHERS/NpmPackagePoket/react-dom-16.13.1.tgz",
+    "hbs": "4.1.1",
+    "jsonwebtoken": "8.5.1",
+    "mongodb": "3.6.2",
+    "mongoose": "5.10.5",
+    "multer": "1.4.2",
     "sharp": "^0.26.1",
     "socket.io": "^3.0.3",
-    "validator": "file:../../OTHERS/NpmPackagePoket/validator-13.1.1.tgz"
+    "validator": "13.1.1"
   }
 }
