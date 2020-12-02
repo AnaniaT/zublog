@@ -1,9 +1,6 @@
-const sgMail = require("@sendgrid/mail");
-const { verify } = require("jsonwebtoken");
+const sgMail = require('@sendgrid/mail');
 
-const APIKEY =
-  "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";
-sgMail.setApiKey(APIKEY);
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const genTemp = (cardTitle, cardContent) => {
   const genLogo = (width, heigth, margin) => {
@@ -100,7 +97,7 @@ const genTemp = (cardTitle, cardContent) => {
           "
           class="title"
         >
-        ${genLogo("23px", "30px", "0 16px")}
+        ${genLogo('23px', '30px', '0 16px')}
           <div
             style="flex: 1; font-size: 18px; font-weight: 600; line-height: 30px; color:#000;"
             class="txt"
@@ -132,7 +129,7 @@ const genTemp = (cardTitle, cardContent) => {
           "
           class="footer"
         >
-        ${genLogo("auto", "19px", "2.5px 6px")}
+        ${genLogo('auto', '19px', '2.5px 6px')}
           <a
             style="
               font-size: 14px;
@@ -155,7 +152,7 @@ const genTemp = (cardTitle, cardContent) => {
 };
 
 const sendVerificationEmail = (email, name, verifyLink) => {
-  const title = "ZuBlog Email Verification";
+  const title = 'ZuBlog Email Verification';
   const content = `
   Hello, ${name}! I really hope it is really you who just signed up on
   ZuBlog if it is really you please click the button below to finish your
@@ -187,10 +184,10 @@ const sendVerificationEmail = (email, name, verifyLink) => {
     .send({
       to: email,
       from: {
-        name: "Hanizu",
-        email: "hanizu.anan@mail.com",
+        name: 'Hanizu',
+        email: 'hanizu.anan@mail.com',
       },
-      subject: "ZuBlog Account Verification",
+      subject: 'ZuBlog Account Verification',
       html: genTemp(title, content),
     })
     .catch((err) => {
@@ -202,7 +199,7 @@ const sendVerificationEmail = (email, name, verifyLink) => {
 };
 
 const sendWelcomeEmail = (email, name) => {
-  const title = "ZuBlog Account Verified";
+  const title = 'ZuBlog Account Verified';
   const content = `
   How are you doing, ${name}! You have successfuly verified your account
   using this email address. I would like to thank you for joining with me.
@@ -213,10 +210,10 @@ const sendWelcomeEmail = (email, name) => {
     .send({
       to: email,
       from: {
-        name: "Hanizu",
-        email: "hanizu.anan@mail.com",
+        name: 'Hanizu',
+        email: 'hanizu.anan@mail.com',
       },
-      subject: "Welcome to ZuBlog",
+      subject: 'Welcome to ZuBlog',
       html: genTemp(title, content),
     })
     .catch((err) => {

@@ -1,15 +1,18 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
+let mongoRetries = 5;
 const connect = () => {
   mongoose
-    .connect("mongodb://127.0.0.1:27017/zublog-dev", {
+    .connect(process.env.MONGODB_URL, {
       useNewUrlParser: true,
       useCreateIndex: true,
       useUnifiedTopology: true,
     })
-    .catch((e) => {
-      console.log(e);
-      connect();
+    .catch(() => {
+      if (mongoRetries > 0) {
+        mongoRetries--;
+        connect();
+      }
     });
 };
 

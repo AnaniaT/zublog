@@ -1,94 +1,94 @@
-const express = require("express");
-const jwt = require("jsonwebtoken");
+const express = require('express');
+const jwt = require('jsonwebtoken');
 
-const User = require("../models/user");
-const cookieAuth = require("../middlewares/cookieAuth");
-const autoLogger = require("../middlewares/autoLogger");
+const User = require('../models/user');
+const cookieAuth = require('../middlewares/cookieAuth');
+const autoLogger = require('../middlewares/autoLogger');
 const {
   sendVerificationEmail,
   sendWelcomeEmail,
-} = require("../emails/account");
+} = require('../emails/account');
 const pr = console.log;
 
 const router = new express.Router();
 
-router.get("/", autoLogger, (req, res) => {
+router.get('/', autoLogger, (req, res) => {
   if (req.cookies.failedSignUpRedirect) {
     const { userData, errMsg } = req.cookies.failData;
-    res.clearCookie("failData");
-    res.clearCookie("failedSignUpRedirect");
-    return res.render("index", {
-      activeForm: "right-panel-active",
+    res.clearCookie('failData');
+    res.clearCookie('failedSignUpRedirect');
+    return res.render('index', {
+      activeForm: 'right-panel-active',
       signupMsg: errMsg,
       newUser: userData,
-      loginmsgClass: "invisible",
+      loginmsgClass: 'invisible',
     });
   }
 
   if (req.cookies.goodSignUpRedirect) {
     const { email } = req.cookies.goodData;
-    res.clearCookie("goodData");
-    res.clearCookie("goodSignUpRedirect");
-    return res.render("index", {
-      activeForm: "right-panel-active",
-      signupMsg: "Account created successfuly",
-      modalDisplay: "checked",
+    res.clearCookie('goodData');
+    res.clearCookie('goodSignUpRedirect');
+    return res.render('index', {
+      activeForm: 'right-panel-active',
+      signupMsg: 'Account created successfuly',
+      modalDisplay: 'checked',
       email,
-      signupmsgClass: "good",
-      loginmsgClass: "invisible",
+      signupmsgClass: 'good',
+      loginmsgClass: 'invisible',
     });
   }
 
   if (req.cookies.failedLoginRedirect) {
     const { userData, errMsg } = req.cookies.failData;
-    res.clearCookie("failData");
-    res.clearCookie("failedLoginRedirect");
-    return res.render("index", {
+    res.clearCookie('failData');
+    res.clearCookie('failedLoginRedirect');
+    return res.render('index', {
       loginMsg: errMsg,
       user: userData,
-      signupmsgClass: "invisible",
+      signupmsgClass: 'invisible',
     });
   }
-  res.render("index", {
-    loginmsgClass: "invisible",
-    signupmsgClass: "invisible",
+  res.render('index', {
+    loginmsgClass: 'invisible',
+    signupmsgClass: 'invisible',
   });
 });
 
-router.post("/signup", async (req, res) => {
-  const allowedFields = ["username", "email", "password", "confirmPassword"];
+router.post('/signup', async (req, res) => {
+  const allowedFields = ['username', 'email', 'password', 'confirmPassword'];
 
   // make sure all fields exist
   for (let field of allowedFields) {
     if (req.body[field] === undefined) {
-      return res.status(400).render("400html", { url: req.path });
+      return res.status(400).render('400html', { url: req.path });
     }
   }
   // prevent additional data from comming in
   const dataKeys = Object.keys(req.body);
   const isValidOpration = dataKeys.every((key) => allowedFields.includes(key));
   if (!isValidOpration) {
-    return res.status(400).render("400html", {
+    return res.status(400).render('400html', {
       url: req.path,
     });
   }
 
   // check if password is confirmed
-  if (req.body.confirmPassword === "") {
-    res.cookie("failedSignUpRedirect", true);
-    res.cookie("failData", {
+  if (req.body.confirmPassword === '') {
+    res.cookie('failedSignUpRedirect', true);
+    res.cookie('failData', {
       userData: req.body,
-      errMsg: "Please confirm your password",
+      errMsg: 'Please confirm your password',
     });
-    return res.redirect("/");
+    return res.redirect('/');
   }
   if (req.body.password !== req.body.confirmPassword) {
-    res.cookie("failedSignUpRedirect", true);
-    res.cookie("failData", {
+    res.cookie('failedSignUpRedirect', true);
+    res.cookie('failData', {
       userData: req.body,
-      errMsg: "Passwords do not match",
+      errMsg: 'Passwords do not match',
     });
-    return res.redirect("/");
+    return res.redirect('/');
   }
 
   const user = new User({ ...req.body, active: false, social: {} });
@@ -105,66 +105,66 @@ router.post("/signup", async (req, res) => {
   });
 
   if (error) {
-    res.cookie("failedSignUpRedirect", true);
-    res.cookie("failData", {
+    res.cookie('failedSignUpRedirect', true);
+    res.cookie('failData', {
       userData: req.body,
       errMsg: error,
     });
-    return res.redirect("/");
+    return res.redirect('/');
   }
 
   // toggle a modal popup
-  res.cookie("goodSignUpRedirect", true);
-  res.cookie("goodData", { email: user.email });
+  res.cookie('goodSignUpRedirect', true);
+  res.cookie('goodData', { email: user.email });
 
   // send email with some identification
-  const token = jwt.sign({ id: user._id }, "thisIsAJWTSecret");
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
   const verifyLink =
-    req.protocol + "://" + req.get("host") + "/account/verify/email/" + token;
+    req.protocol + '://' + req.get('host') + '/account/verify/email/' + token;
   // sendVerificationEmail(user.email, user.username, verifyLink);
-  return res.redirect("/");
+  return res.redirect('/');
 });
 
-router.post("/login", async (req, res) => {
+router.post('/login', async (req, res) => {
   let user;
   try {
     user = await User.findByCredentials(req.body.username, req.body.password);
   } catch (err) {
-    res.cookie("failedLoginRedirect", true);
-    res.cookie("failData", {
+    res.cookie('failedLoginRedirect', true);
+    res.cookie('failData', {
       userData: req.body,
       errMsg: err.message,
     });
-    return res.redirect("/");
+    return res.redirect('/');
   }
   const token = await user.generateAuthToken();
-  res.cookie("_Oth", token);
-  res.redirect("/home");
+  res.cookie('_Oth', token);
+  res.redirect('/home');
 });
 
-router.get("/logout", cookieAuth, async (req, res) => {
+router.get('/logout', cookieAuth, async (req, res) => {
   try {
     req.user.tokens = req.user.tokens.filter(
       (tokenObj) => tokenObj.token !== req.token
     );
     await req.user.save();
   } catch {}
-  res.clearCookie("_Oth");
-  res.redirect("/");
+  res.clearCookie('_Oth');
+  res.redirect('/');
 });
 
-router.get("/logoutAll", cookieAuth, async (req, res) => {
+router.get('/logoutAll', cookieAuth, async (req, res) => {
   try {
     req.user.tokens = [];
     await req.user.save();
   } catch {}
-  res.redirect("/");
+  res.redirect('/');
 });
 
-router.get("/account/verify/email/:token", async (req, res) => {
+router.get('/account/verify/email/:token', async (req, res) => {
   const token = req.params.token;
   try {
-    const decoded = jwt.verify(token, "thisIsAJWTSecret");
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findOne({
       _id: decoded.id,
       active: false,
@@ -173,31 +173,31 @@ router.get("/account/verify/email/:token", async (req, res) => {
     await user.save();
     const tok = await user.generateAuthToken();
     // sendWelcomeEmail(user.email, user.username);
-    res.cookie("_Oth", tok);
-    res.redirect("/home");
+    res.cookie('_Oth', tok);
+    res.redirect('/home');
   } catch (e) {
     res.status(400).send();
   }
 });
 
-router.get("/forgotpassword", async (req, res) => {
+router.get('/forgotpassword', async (req, res) => {
   let data = {
-    displayClass: "invisible",
+    displayClass: 'invisible',
   };
   if (req.cookies.failData) {
-    data["user"] = req.cookies.failData;
-    data["msg"] = req.cookies.failMsg;
-    data["displayClass"] = "";
-    res.clearCookie("failData");
-    res.clearCookie("failMsg");
+    data['user'] = req.cookies.failData;
+    data['msg'] = req.cookies.failMsg;
+    data['displayClass'] = '';
+    res.clearCookie('failData');
+    res.clearCookie('failMsg');
   } else if (req.cookies.goodData) {
-    data["user"] = req.cookies.goodData;
-    data["msg"] = req.cookies.goodMsg;
-    data["displayClass"] = "good";
-    res.clearCookie("goodData");
-    res.clearCookie("goodMsg");
+    data['user'] = req.cookies.goodData;
+    data['msg'] = req.cookies.goodMsg;
+    data['displayClass'] = 'good';
+    res.clearCookie('goodData');
+    res.clearCookie('goodMsg');
   }
-  res.render("forgotpassword", data);
+  res.render('forgotpassword', data);
 });
 
 // router.post("/forgotpassword", async (req, res) => {

@@ -5,7 +5,8 @@
   "main": "./src/main.js",
   "scripts": {
     "start": "node ./src/main.js",
-    "dev": "nodemon ./src/main.js -e js,hbs"
+    "dev": "env-cmd -f config/dev.env nodemon ./src/main.js -e js,hbs",
+    "prod": "env-cmd -f config/prod.env nodemon ./src/main.js -e js,hbs"
   },
   "keywords": [],
   "author": "",
