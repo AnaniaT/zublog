@@ -1,22 +1,21 @@
-const express = require("express");
-const hbs = require("hbs");
-const fs = require("fs");
+const express = require('express');
+const hbs = require('hbs');
+const fs = require('fs');
 
-const cookieAuth = require("../middlewares/cookieAuth");
-const Comment = require("../models/comment");
-const postResolver = require("../middlewares/postResolver");
-const Post = require("../models/post");
+const cookieAuth = require('../middlewares/cookieAuth');
+const Comment = require('../models/comment');
+const postResolver = require('../middlewares/postResolver');
+const Post = require('../models/post');
 
 const router = new express.Router();
 
 const emitSocketData = async (req, postId) => {
   const post = await Post.findById(postId);
-  await post.populate("comments").execPopulate();
+  await post.populate('comments').execPopulate();
 
-  const io = req.app.get("socketio");
-  io.emit("numsChanged", {
-    type: "comment",
-    postId,
+  const io = req.app.get('socketio');
+  io.emit('numsChanged-' + postId, {
+    type: 'comment',
     countNum: post.toJSON().comments.length,
   });
 };
@@ -24,15 +23,15 @@ const emitSocketData = async (req, postId) => {
 const emitCommentsData = async (req, postInstance) => {
   const post = await postInstance
     .populate({
-      path: "comments",
+      path: 'comments',
       populate: [
         {
-          path: "author",
-          select: "_id username avatar hasTick",
+          path: 'author',
+          select: '_id username avatar hasTick',
         },
         {
-          path: "post",
-          select: "_id author",
+          path: 'post',
+          select: '_id author',
         },
       ],
       options: {
@@ -44,9 +43,9 @@ const emitCommentsData = async (req, postInstance) => {
     .execPopulate();
   const numOfLikes = postInstance.likes.length;
   const comments = post.toJSON().comments;
-  const hbsString = fs.readFileSync("./templates/partials/comment_card.hbs");
+  const hbsString = fs.readFileSync('./templates/partials/comment_card.hbs');
   const template = hbs.handlebars.compile(hbsString.toString());
-  let result = "";
+  let result = '';
   for (let comment of comments) {
     const data = template(
       {
@@ -59,7 +58,7 @@ const emitCommentsData = async (req, postInstance) => {
     );
     result += data;
   }
-  const io = req.app.get("socketio");
+  const io = req.app.get('socketio');
   io.emit(`commentUpdate-${postInstance._id}`, {
     numOfLikes,
     numOfComments: comments.length,
@@ -67,7 +66,7 @@ const emitCommentsData = async (req, postInstance) => {
   });
 };
 
-router.post("/write/comment", cookieAuth, postResolver, async (req, res) => {
+router.post('/write/comment', cookieAuth, postResolver, async (req, res) => {
   const comment = new Comment({
     body: req.body.comment,
     post: req.post._id,
@@ -94,10 +93,10 @@ router.post("/write/comment", cookieAuth, postResolver, async (req, res) => {
   return res.status(400).send();
 });
 
-router.delete("/delete/comment", cookieAuth, async (req, res) => {
+router.delete('/delete/comment', cookieAuth, async (req, res) => {
   try {
     const comment = await Comment.findById(req.body.commentId);
-    await comment.populate("post").execPopulate();
+    await comment.populate('post').execPopulate();
     // Only allow post onwners and comment owner
     const allowedUsers = [
       comment.post.author.toString(),
@@ -116,18 +115,18 @@ router.delete("/delete/comment", cookieAuth, async (req, res) => {
   }
 });
 
-router.get("/get/comments/:id", cookieAuth, postResolver, async (req, res) => {
+router.get('/get/comments/:id', cookieAuth, postResolver, async (req, res) => {
   const post = await req.post
     .populate({
-      path: "comments",
+      path: 'comments',
       populate: [
         {
-          path: "author",
-          select: "_id username avatar hasTick",
+          path: 'author',
+          select: '_id username avatar hasTick',
         },
         {
-          path: "post",
-          select: "_id author",
+          path: 'post',
+          select: '_id author',
         },
       ],
       options: {
@@ -141,7 +140,7 @@ router.get("/get/comments/:id", cookieAuth, postResolver, async (req, res) => {
   const comments = post.toJSON().comments;
   // respose will be a json like { view: myHTML(after using its context), ...myOtherDatasToBeSent}
   res.renderWithData(
-    "component", // template
+    'component', // template
     { partial1: true, comments, user: { _id: req.user._id } }, // context for template
     {
       // the json data

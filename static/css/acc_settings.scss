@@ -5,7 +5,7 @@ $iconBoxWidth: calc(#{$submitWidth} + 6px);
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+  font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
 }
 
 body {
@@ -255,7 +255,7 @@ body {
         }
       }
 
-      input[type="checkbox"]:checked ~ .overlay {
+      input[type='checkbox']:checked ~ .overlay {
         transform: translateY(-100%);
       }
       // input[type="checkbox"]:checked ~ .submit {
@@ -379,7 +379,7 @@ body {
             outline: none;
             border: none;
             background: none;
-            background-color: #fff;
+            background-color: transparent;
             border: 2px solid #77c382;
             border-left: none;
             border-right: none;

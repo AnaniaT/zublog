@@ -1,39 +1,39 @@
 // THIS USES WEBSOCKETS MAINLY TO UPDATE THE DOM
 const domain = location.origin;
-const commentTextarea = document.querySelector("#commentTextarea");
-const commentForm = document.querySelector("#commentForm");
-const postIdInput = document.querySelector("#postId");
+const commentTextarea = document.querySelector('#commentTextarea');
+const commentForm = document.querySelector('#commentForm');
+const postIdInput = document.querySelector('#postId');
 const postId = postIdInput.value;
-const commentCount = document.querySelector("#commentCount");
-const likeBtn = document.querySelector("#likeBtn");
-const likeCount = likeBtn.querySelector(".count");
+const commentCount = document.querySelector('#commentCount');
+const likeBtn = document.querySelector('#likeBtn');
+const likeCount = likeBtn.querySelector('.count');
 
 // KINDA GOOD USER XP WHEN COMMENTING
-commentTextarea.addEventListener("input", (e) => {
-  e.target.style.height = "1px";
-  e.target.style.height = e.target.scrollHeight + "px";
+commentTextarea.addEventListener('input', (e) => {
+  e.target.style.height = '1px';
+  e.target.style.height = e.target.scrollHeight + 'px';
 });
 
 // HANDLE COMMENT SUBMISSION
-commentForm.addEventListener("submit", async (e) => {
+commentForm.addEventListener('submit', async (e) => {
   toggleLoadingBar();
   e.preventDefault();
   const comment = commentTextarea.value;
-  commentTextarea.value = "";
-  commentTextarea.style.height = "25px";
-  await fetch(domain + "/write/comment", {
-    method: "POST",
+  commentTextarea.value = '';
+  commentTextarea.style.height = '25px';
+  await fetch(domain + '/write/comment', {
+    method: 'POST',
     body: JSON.stringify({
       comment,
       postId,
     }),
-    headers: new Headers({ "content-type": "application/json" }),
+    headers: new Headers({ 'content-type': 'application/json' }),
   })
     .then((r) => {
       if (r.status >= 200 && r.status < 300) {
-        return console.log("Good");
+        return console.log('Good');
       }
-      throw new Error("Something went wrong");
+      throw new Error('Something went wrong');
     })
     .catch((err) => {
       console.log(err.message);
@@ -43,17 +43,17 @@ commentForm.addEventListener("submit", async (e) => {
 });
 
 // HANDLING LIKE AND UNLIKES
-likeBtn.addEventListener("click", async () => {
-  const icon = likeBtn.querySelector("svg");
-  icon.style.animation = "likeSpin 1s linear infinite";
-  await fetch(domain + "/" + postId + "/likes", {
-    method: "POST",
+likeBtn.addEventListener('click', async () => {
+  const icon = likeBtn.querySelector('svg');
+  icon.style.animation = 'likeSpin 1s linear infinite';
+  await fetch(domain + '/' + postId + '/likes', {
+    method: 'POST',
   })
     .then((r) => {
       if (r.status >= 200 && r.status < 300) {
         return r.json();
       }
-      throw new Error("Something went wrong");
+      throw new Error('Something went wrong');
     })
     .then(({ likes, hasLiked }) => {
       if (hasLiked) {
@@ -68,37 +68,37 @@ likeBtn.addEventListener("click", async () => {
       likeCount.textContent = likes;
     })
     .catch((e) => alert(e.message));
-  icon.style.animation = "";
+  icon.style.animation = '';
 });
 
 // DOM UPDATE HANDLER
 const handleDOMUpdate = ({ numOfLikes, numOfComments, view }) => {
-  const toolBox = document.querySelector("#commentsTab");
+  const toolBox = document.querySelector('#commentsTab');
   const clearCommentList = () => {
     // WILL ONLY KEEP THE COMMENT FORM FROM THE TOOLS BOX
     for (let child of toolBox.children) {
-      if (!(child.id === "commentForm")) {
+      if (!(child.id === 'commentForm')) {
         child.remove();
       }
     }
   };
 
-  let commentsBox = document.querySelector(".comment-container");
+  let commentsBox = document.querySelector('.comment-container');
   if (commentsBox) {
     if (view) {
       commentsBox.innerHTML = view;
       registerCommentDelListners();
     } else {
-      const noCommentsMsg = document.createElement("div");
-      noCommentsMsg.classList.add("no-comments");
-      noCommentsMsg.textContent = "No Comments yet. Be the first to respond.";
+      const noCommentsMsg = document.createElement('div');
+      noCommentsMsg.classList.add('no-comments');
+      noCommentsMsg.textContent = 'No Comments yet. Be the first to respond.';
       clearCommentList();
       toolBox.appendChild(noCommentsMsg);
     }
   } else {
     clearCommentList();
-    commentsBox = document.createElement("div");
-    commentsBox.classList.add("comment-container");
+    commentsBox = document.createElement('div');
+    commentsBox.classList.add('comment-container');
     commentsBox.innerHTML = view;
     toolBox.appendChild(commentsBox);
   }
@@ -115,21 +115,19 @@ socket.on(
   }
 );
 
-socket.on("numsChanged", ({ type, postId: id, countNum }) => {
-  if (postId === id) {
-    if (type === "like") {
-      likeCount.textContent = countNum;
-    } else if (type === "comment") {
-      commentCount.textContent = countNum;
-    }
+socket.on('numsChanged-' + postId, ({ type, countNum }) => {
+  if (type === 'like') {
+    likeCount.textContent = countNum;
+  } else if (type === 'comment') {
+    commentCount.textContent = countNum;
   }
 });
 
 // HANDLE THE EVENT LISTENERS
 const registerCommentDelListners = () => {
-  const commentDelBtns = document.querySelectorAll(".comment-del-btn");
+  const commentDelBtns = document.querySelectorAll('.comment-del-btn');
   commentDelBtns.forEach((btn) => {
-    btn.addEventListener("click", async () => {
+    btn.addEventListener('click', async () => {
       const commentId = btn.dataset.commentid;
       toggleLoadingBar();
       await deleteComment(commentId);
@@ -141,16 +139,16 @@ registerCommentDelListners();
 
 // HANDLE COMMENT DELETE
 const deleteComment = async (commentId) => {
-  await fetch(domain + "/delete/comment", {
-    method: "DELETE",
+  await fetch(domain + '/delete/comment', {
+    method: 'DELETE',
     body: JSON.stringify({ commentId }),
-    headers: new Headers({ "content-type": "application/json" }),
+    headers: new Headers({ 'content-type': 'application/json' }),
   })
     .then((r) => {
       if (r.status >= 200 && r.status < 300) {
-        return console.log("Good");
+        return console.log('Good');
       }
-      throw new Error("Something went wrong");
+      throw new Error('Something went wrong');
     })
     .catch((err) => {
       console.log(err.message);
